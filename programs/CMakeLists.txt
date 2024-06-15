@@ -1,4 +1,4 @@
-include_directories(.)
+#include_directories(.)
 
 # Create programs.
 add_executable(pm_ptest ptest.c io.c adaptgraph.c)
@@ -9,8 +9,10 @@ add_executable(pm_dglpart dglpart.c)
 
 # Link with the required libraries 
 foreach(prog pm_ptest pm_mtest pm_parmetis pm_pometis pm_dglpart)
-  target_link_libraries(${prog} parmetis metis GKlib m)
+  target_include_directories(${prog} PRIVATE ${ParMETIS_PATH}/programs ${ParMETIS_PATH}/include ${LIBParMETIS_PATH})
+  target_link_libraries(${prog} PUBLIC ParMETIS MPI::MPI_C)
 endforeach(prog)
 
 install(TARGETS pm_ptest pm_mtest pm_parmetis pm_pometis pm_dglpart
-  RUNTIME DESTINATION bin)
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+)
