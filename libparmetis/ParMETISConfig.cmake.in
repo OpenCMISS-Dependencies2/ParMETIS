@@ -1,0 +1,22 @@
+@PACKAGE_INIT@
+
+set(ParMETIS_MAJOR_VERSION "@PARMETIS_VER_MAJOR@")
+set(ParMETIS_MINOR_VERSION "@PARMETIS_VER_MINOR@")
+set(ParMETIS_SUBMINOR_VERION "@PARMETIS_VER_SUBMINOR@")
+
+set(ParMETIS_WITH_DEBUG "@DEBUG@")
+set(ParMETIS_WITH_OPENMP "@OPENMP@")
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(MPI REQUIRED)
+find_dependency(METIS REQUIRED)
+# If necessary, find the OpenMP dependency
+if(ParMETIS_WITH_OPENMP)
+  find_dependency(OpenMP REQUIRED)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/ParMETISTargets.cmake")
+check_required_components("ParMETIS")
+
+
